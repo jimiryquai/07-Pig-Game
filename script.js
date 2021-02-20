@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 'use strict';
 // Selecting elements
 const score0El = document.querySelector('.score--0');
@@ -19,6 +18,7 @@ score0El.textContent = 0;
 score1El.textContent = 0;
 hide(diceEl);
 let currentScore = 0;
+let totalScores = [0, 0];
 
 const show = el => el.classList.remove('hidden');
 const isActive = el => {
@@ -49,10 +49,21 @@ btnRoll.addEventListener('click', () => {
     isActive(player0El)
       ? ((currentScore = 0),
         (currentScore0El.textContent = currentScore),
-        // eslint-disable-next-line indent
         switchActivePlayer(player0El, player1El))
       : ((currentScore = 0),
         (currentScore1El.textContent = currentScore),
         switchActivePlayer(player1El, player0El));
   }
+});
+
+btnHold.addEventListener('click', () => {
+  isActive(player0El)
+    ? ((totalScores[0] += currentScore),
+      (score0El.textContent = totalScores[0]),
+      (currentScore = 0),
+      (currentScore0El.textContent = currentScore))
+    : ((totalScores[1] += currentScore),
+      (score1El.textContent = totalScores[1]),
+      (currentScore = 0),
+      (currentScore1El.textContent = currentScore));
 });
