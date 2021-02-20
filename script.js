@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 'use strict';
 // Selecting elements
 const score0El = document.querySelector('.score--0');
@@ -24,12 +25,9 @@ const isActive = el => {
   return el.classList.contains('player--active');
 };
 
-const setActive = el => {
-  return el.classList.add('player--active');
-};
-
-const setInactive = el => {
-  return el.classList.remove('player--active');
+const switchActivePlayer = (el0, el1) => {
+  el0.classList.toggle('player--active');
+  el1.classList.toggle('player--active');
 };
 
 btnRoll.addEventListener('click', () => {
@@ -43,23 +41,18 @@ btnRoll.addEventListener('click', () => {
   if (dice !== 1) {
     // Add dice to current score
     currentScore += dice;
-    if (isActive(player0El)) {
-      currentScore0El.textContent = currentScore;
-    } else {
-      currentScore1El.textContent = currentScore;
-    }
+    isActive(player0El)
+      ? (currentScore0El.textContent = currentScore)
+      : (currentScore1El.textContent = currentScore);
   } else {
-    // Switch player
-    if (isActive(player0El)) {
-      currentScore = 0;
-      currentScore0El.textContent = currentScore;
-      setInactive(player0El);
-      setActive(player1El);
-    } else {
-      currentScore = 0;
-      currentScore1El.textContent = currentScore;
-      setActive(player0El);
-      setInactive(player1El);
-    }
+    // Switch player and reset current score
+    isActive(player0El)
+      ? ((currentScore = 0),
+        (currentScore0El.textContent = currentScore),
+        // eslint-disable-next-line indent
+        switchActivePlayer(player0El, player1El))
+      : ((currentScore = 0),
+        (currentScore1El.textContent = currentScore),
+        switchActivePlayer(player1El, player0El));
   }
 });
